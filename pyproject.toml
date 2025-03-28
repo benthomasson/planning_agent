@@ -1,0 +1,18 @@
+[project]
+name = "planning_agent"
+version = "0.1.2"
+dependencies = [
+    "smolagents[litellm]==1.9.2",
+    "gradio",
+    "black",
+]
+
+[tool.setuptools]
+packages = ["planning_agent"]
+
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project.scripts]
+planning-agent = "planning_agent.cli:main"
