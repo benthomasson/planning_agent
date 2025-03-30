@@ -5,6 +5,7 @@ dependencies = [
     "smolagents[litellm]==1.9.2",
     "gradio",
     "black",
+    "ftlagents",
 ]
 
 [tool.setuptools]

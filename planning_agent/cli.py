@@ -1,8 +1,8 @@
 import click
 
-from .core import create_model, run_agent
+from ftlagents.core import create_model, run_agent
 from .default_tools import TOOLS
-from .tools import get_tool, load_tools
+from ftlagents.tools import get_tool, load_tools
 from smolagents.memory import ActionStep
 from smolagents.agent_types import AgentText
 
