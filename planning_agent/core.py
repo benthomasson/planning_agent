@@ -14,6 +14,7 @@ def make_agent(tools, model):
         tools=tools,
         model=model,
         verbosity_level=4,
+        max_steps=10,
     )
     return agent
 

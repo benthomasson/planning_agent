@@ -195,6 +195,8 @@ def load_tools(tools_file):
 
     # Load module from file path
     spec = importlib.util.spec_from_file_location("tools", tools_file)
+    if spec is None:
+        raise Exception(f'Cannot find tools_file at {tools_file}')
     module = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(module)
 

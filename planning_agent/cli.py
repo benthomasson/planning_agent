@@ -3,6 +3,11 @@ import click
 from .core import create_model, run_agent
 from .default_tools import TOOLS
 from .tools import get_tool, load_tools
+from smolagents.memory import ActionStep
+from smolagents.agent_types import AgentText
+
+#import logging
+#logging.basicConfig(level=logging.DEBUG)
 
 
 @click.command()
@@ -42,4 +47,7 @@ def main(
         model=model,
         prompt=prompt,
     ):
-        print(o)
+        if isinstance(o, ActionStep):
+            pass
+        elif isinstance(o, AgentText):
+            print(o.to_string())
