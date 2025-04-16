@@ -76,6 +76,7 @@ class UserInputTool(Tool):
 
     def forward(self, question):
         user_input = input(f"{question} => Type your answer here:")
+        self.state["user_input"].append([question, user_input])
         return user_input
 
 
@@ -93,7 +94,9 @@ class InputTool(Tool):
 
     def forward(self, question):
         user_input = input(f"{question} => Type your answer here:")
+        self.state["user_input"].append([question, user_input])
         return user_input
+
 
 TOOLS = {
     "complete": Complete,

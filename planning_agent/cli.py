@@ -1,4 +1,5 @@
 import click
+import yaml
 
 from ftlagents.core import create_model, run_agent
 from .default_tools import TOOLS
@@ -6,8 +7,8 @@ from ftlagents.tools import get_tool, load_tools
 from smolagents.memory import ActionStep
 from smolagents.agent_types import AgentText
 
-#import logging
-#logging.basicConfig(level=logging.DEBUG)
+# import logging
+# logging.basicConfig(level=logging.DEBUG)
 
 
 @click.command()
@@ -16,12 +17,14 @@ from smolagents.agent_types import AgentText
 @click.option("--prompt", "-p", prompt="What is the prompt?")
 @click.option("--model", "-m", default="ollama_chat/deepseek-r1:14b")
 @click.option("--info", "-i", multiple=True)
+@click.option("--user-input", "-u", default="user_input.txt")
 def main(
     tools,
     tools_files,
     prompt,
     model,
     info,
+    user_input,
 ):
     """A agent that solves a prompt given a system design and a set of tools"""
     tool_classes = {}
@@ -29,7 +32,7 @@ def main(
     for tf in tools_files:
         tool_classes.update(load_tools(tf))
     model = create_model(model)
-    state = {}
+    state = {'user_input': []}
 
     parts = [prompt]
 
@@ -42,12 +45,18 @@ def main(
 
     prompt = "\n".join(parts)
 
-    for o in run_agent(
-        tools=[get_tool(tool_classes, t, state) for t in tools],
-        model=model,
-        prompt=prompt,
-    ):
-        if isinstance(o, ActionStep):
-            pass
-        elif isinstance(o, AgentText):
-            print(o.to_string())
+    try:
+
+        for o in run_agent(
+            tools=[get_tool(tool_classes, t, state) for t in tools],
+            model=model,
+            prompt=prompt,
+        ):
+            if isinstance(o, ActionStep):
+                pass
+            elif isinstance(o, AgentText):
+                print(o.to_string())
+    finally:
+        if state['user_input']:
+            with open(user_input, 'w') as f:
+                f.write(yaml.dump(state['user_input']))
