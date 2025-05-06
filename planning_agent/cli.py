@@ -17,7 +17,7 @@ from smolagents.agent_types import AgentText
 @click.option("--prompt", "-p", prompt="What is the prompt?")
 @click.option("--model", "-m", default="ollama_chat/deepseek-r1:14b")
 @click.option("--info", "-i", multiple=True)
-@click.option("--user-input", "-u", default="user_input.txt")
+@click.option("--user-input", "-u", default="user_input.yml")
 def main(
     tools,
     tools_files,
@@ -32,7 +32,7 @@ def main(
     for tf in tools_files:
         tool_classes.update(load_tools(tf))
     model = create_model(model)
-    state = {'user_input': []}
+    state = {'user_input': {}}
 
     parts = [prompt]
 
